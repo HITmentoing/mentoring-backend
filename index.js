@@ -4,28 +4,28 @@ const { Sequelize } = require('sequelize');
 const app = express();
 
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 
 // Database Connection//
-const sequelize = new Sequelize(
-  'hit_mentoring_DB',
-  'root',
-  process.env.DB_PASSWORD,
-  {
-    host: '127.0.0.1',
-    dialect: 'mysql',
-  }
-);
+// const sequelize = new Sequelize(
+//   'hit_mentoring_DB',
+//   'root',
+//   process.env.DB_PASSWORD,
+//   {
+//     host: '127.0.0.1',
+//     dialect: 'mysql',
+//   }
+// );
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//   })
+//   .catch((error) => {
+//     console.error('Unable to connect to the database: ', error);
+//   });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((error) => {
-    console.error('Unable to connect to the database: ', error);
-  });
-
-//server code
+/*server code*/
 
 const user = {
   firstName: 'Tim',
