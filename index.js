@@ -6,10 +6,15 @@ const app = express();
 app.set('view engine', 'ejs');
 
 // Database Connection//
-const sequelize = new Sequelize('hit_mentoring_DB', 'root', '', {
-  host: '127.0.0.1',
-  dialect: 'mysql',
-});
+const sequelize = new Sequelize(
+  'hit_mentoring_DB',
+  'root',
+  process.env.DB_PASSWORD,
+  {
+    host: '127.0.0.1',
+    dialect: 'mysql',
+  }
+);
 
 sequelize
   .authenticate()
