@@ -1,6 +1,9 @@
 const express = require('express');
 const { Sequelize } = require('sequelize');
+
 const app = express();
+
+app.set('view engine', 'ejs');
 
 // Database Connection//
 const sequelize = new Sequelize('hit_mentoring_DB', 'root', '', {
@@ -18,8 +21,14 @@ sequelize
   });
 
 //server code
+
+const user = {
+  firstName: 'Tim',
+  lastName: 'Cook',
+};
+
 app.get('/', (req, res) => {
-  res.send('hello world');
+  res.render('pages/index', { user: user });
 });
 
 app.listen(2000);
