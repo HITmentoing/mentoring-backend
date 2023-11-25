@@ -1,0 +1,40 @@
+<%-include("./partials/header")-%>
+<body class="bg-red-500">
+    <h1>Student Registration Form</h1>
+    
+    <form action="/mentor" method="post" id="addStudentFrom">
+        <div class="mx-auto my-5">
+            <label for="name">Student Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+       
+         <div class="mx-auto  my-5">
+            <label for="studentId">Student Id</label>
+            <input type="text" id="studentId" name="studentId" required>
+            <br>
+        </div>
+        
+        <div class="mx-auto  my-5">
+            <label for="rollNumber">Roll Number</label>
+            <input type="text" id="rollNumber" name="rollNumber" required>
+            <br>
+        </div>
+        
+        <div class="mx-auto my-5">
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password" required>
+        </div>
+        
+        
+        <div class="bg-blue-400">
+            <button type="submit">Register</button>
+        </div>
+        
+    </form>
+</body>
+<script>
+    document.getElementById("addStudentFrom").addEventListener("submit",(event)=>{
+        event.preventDefault();
+    })
+</script>
+</html>

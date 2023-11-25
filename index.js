@@ -3,6 +3,31 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
+var i =0;
+
+ function updateId() {
+  return ++i;
+ }
+const dataArray = [
+  {
+    id : updateId(),
+    name: "Rajdeep Chowdhury",
+    studentId: "001-20-3500",
+    rollNo: 12568525
+  },
+  {
+    id: updateId(),
+    name: "Rajpratim Patra",
+    studentId: "001-20-3500",
+    rollNo: 12568525
+  },
+  {
+    id: updateId(),
+    name: "Jayanta Barik",
+    studentId: "001-20-3500",
+    rollNo: 12568525
+  }
+];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,8 +59,28 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
   res.render('login');
 });
+app.get("/mentor",(req,res)=>{
+  res.render('mentor',{dataArray});
+})
+app.post("/process-add-student",(req,res)=>{
+  res.render('addStudentFrom');
+})
+app.post('/mentor', (req, res) => {
+   dataArray.push({
+    id:updateId(),
+    name: req.body.name,
+    studentId: req.body.studentId,
+    rollNo: req.body.rollNumber
+  })
+  console.log(dataArray);
+ res.render('mentor', { dataArray});
+  
+});
 
 // server listening
 app.listen(PORT, () => {
   console.log(`The app start on http://localhost:${PORT}`);
 });
+
+/*  
+*/
