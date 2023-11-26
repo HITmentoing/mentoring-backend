@@ -1,38 +1,43 @@
-const express = require('express');
-const { Sequelize } = require('sequelize');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+const express = require("express");
+const { Sequelize } = require("sequelize");
+const bodyParser = require("body-parser");
+require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
+// design file
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 
+let i = 0;
 
-let i =0;
-
- function updateId() {
+function updateId() {
   return ++i;
- }
+}
 const dataArray = [
   {
-    id : updateId(),
+    id: updateId(),
     name: "Rajdeep Chowdhury",
     studentId: "001-20-3500",
-    rollNo: 12568525
+    rollNo: 12568525,
+    password: 1234,
   },
   {
     id: updateId(),
     name: "Rajpratim Patra",
     studentId: "001-20-3500",
-    rollNo: 12568525
+    rollNo: 12568525,
+    password: 1234,
   },
   {
     id: updateId(),
     name: "Jayanta Barik",
     studentId: "001-20-3500",
-    rollNo: 12568525
-  }
+    rollNo: 12568525,
+    password: 1234,
+  },
 ];
 
 app.use(express.json());
@@ -57,54 +62,67 @@ app.use(express.urlencoded({ extended: true }));
 //     console.error('Unable to connect to the database: ', error);
 //   });
 
-// design file
-app.use(express.static('public'));
-app.set('view engine', 'ejs');
-
 // routers
-app.get('/', (req, res) => {
-  res.render('login');
+app.get("/", (req, res) => {
+  res.render("login");
+});
+
+//login routes
+app.post("/studentLogin", (req, res) => {
+  const { studentId, studentName, studentPassword } = req.body;
+
+  const student = dataArray.find((stu) => {
+    return (
+      stu.studentId == studentId &&
+      stu.name == studentName &&
+      stu.password == studentPassword
+    );
+  });
+  if (student) {
+    res.send(`Welcome, ${student.name}!`);
+  } else {
+    res.send("Invalid credentials. Please try again.");
+  }
 });
 
 //admin routes
-app.get('/admin', (req, res) => {
-  res.render('admin',{mentorData});
+app.get("/admin", (req, res) => {
+  res.render("admin", { mentorData });
 });
-app.post('/admin', (req, res) => {
+app.post("/admin", (req, res) => {
   mentorData.push({
-   id: req.body.mentorId,
-   name: req.body.name,
-   email: req.body.email,
-   phNo: req.body.phNo
- })
-res.redirect('admin');
-}); 
+    id: req.body.mentorId,
+    name: req.body.name,
+    email: req.body.email,
+    phNo: req.body.phNo,
+  });
+  res.redirect("admin");
+});
 
 //mentor routes
 // get all mentors
-app.get("/mentor",(req,res)=>{
-  res.render('mentor',{dataArray});
-})
-// get student form 
-app.post("/process-add-student",(req,res)=>{
-  res.render('addStudentFrom');
-})
-// add new student to mentor 
-app.post('/mentor', (req, res) => {
-   dataArray.push({
-    id:updateId(),
+app.get("/mentor", (req, res) => {
+  res.render("mentor", { dataArray });
+});
+// get student form
+app.post("/process-add-student", (req, res) => {
+  res.render("addStudentFrom");
+});
+// add new student to mentor
+app.post("/mentor", (req, res) => {
+  dataArray.push({
+    id: updateId(),
     name: req.body.name,
     studentId: req.body.studentId,
-    rollNo: req.body.rollNumber
-  })
-res.redirect("mentor")
-  
+    rollNo: req.body.rollNumber,
+  });
+  res.redirect("mentor");
 });
 
-// delete student from mentor 
-app.post('/deleteStudent', (req, res) => {
+// delete student from mentor
+app.post("/deleteStudent", (req, res) => {
   const { id } = req.body;
-  const index = dataArray.findIndex(data => data.id === parseInt(id));
+  const index = dataArray.findIndex((data) => data.id === parseInt(id));
   if (index !== -1) {
     dataArray.splice(index, 1);
     console.log(`Element with id ${id} deleted successfully.`);
@@ -112,32 +130,30 @@ app.post('/deleteStudent', (req, res) => {
     console.log(`Element with id ${id} not found.`);
   }
   res.redirect("/mentor");
-  
 });
 
 //  get update student form
-app.post('/updateStudentForm', (req, res) => {
+app.post("/updateStudentForm", (req, res) => {
   const id = parseInt(req.body.id);
-  let student=dataArray.find((data)=> data.id === id);
+  let student = dataArray.find((data) => data.id === id);
   //console.log(student);
-  res.render("updateStudentFrom",{student})
-  
+  res.render("updateStudentFrom", { student });
 });
 
-// update student 
-app.post('/updateStudent',(req,res)=>{
+// update student
+app.post("/updateStudent", (req, res) => {
   const name = req.body.name;
   const studentId = req.body.studentId;
   const rollNumber = req.body.rollNumber;
   const id = req.body.id;
-  
-  let index= dataArray.findIndex((data)=>data.id===parseInt(id));
-  dataArray[index].name=name;
-  dataArray[index].studentId=studentId
-  dataArray[index].rollNo= rollNumber
 
-  res.redirect('/mentor')
-})
+  let index = dataArray.findIndex((data) => data.id === parseInt(id));
+  dataArray[index].name = name;
+  dataArray[index].studentId = studentId;
+  dataArray[index].rollNo = rollNumber;
+
+  res.redirect("/mentor");
+});
 
 // server listening
 app.listen(PORT, () => {
