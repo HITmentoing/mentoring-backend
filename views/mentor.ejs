@@ -2,8 +2,8 @@
 
 <body class="bg-teal-600 flex justify-center items-center">
     <div class=" mx-auto mt-8">
-        <h1 class="text-8xl my-3 flex justify-center items-center text-teal-950 "> Mentors page</h1>
-        <h2 class="text-5xl mx-auto flex justify-center items-center text-teal-950">Details Of student</h2>
+        <h1 class="text-8xl my-3 flex justify-center items-center text-teal-950 font-extrabold "> Mentors page</h1>
+        <h2 class="text-5xl mx-auto flex justify-center items-center text-teal-950 font-bold">Details Of student</h2>
         <div class="flex justify-center items-center">
             <form action="/process-add-student" method="post">
                 <button class="bg-green-600 text-white py-1 px-2 rounded-md mr-2" type="submit">Add student</button>
@@ -36,10 +36,23 @@
                         <td>
                             <%= data.rollNo %>
                         </td>
-                        <td class="py-2 px-4 border-b">
-                            <button class="bg-blue-500 text-white py-1 px-2 rounded-md mr-2">Update</button>
-                            <button class="bg-red-500 text-white py-1 px-2 rounded-md">Delete</button>
-                        </td>
+                        
+                        <form action="/updateStudentForm" method="post">
+                            <td class="py-2 px-4 border-b">
+                                <input type="hidden" id="id" name="id" value="<%= data.id %>"> <!-- Set your ID dynamically -->
+                                <button class="bg-blue-500 text-white py-1 px-2 rounded-md" type="submit">Update</button>
+                            </td>
+                        
+                        </form>
+                               
+                        <form action="/deleteStudent" method="post">
+                            <td class="py-2 px-4 border-b">
+                                    <input type="hidden" id="id" name="id" value=<%=data.id %>> <!-- Set your ID dynamically -->
+                                    <button class="bg-red-500 text-white py-1 px-2 rounded-md" type="submit" >Delete</button>
+                            </td>
+                            
+                        </form>
+                        
                     </tr>
             
                     <% }); %>
