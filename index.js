@@ -2,14 +2,9 @@ const express = require('express');
 const { Sequelize } = require('sequelize');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-//const bodyParser = require('bodyParser');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-<<<<<<< HEAD
-
-
-=======
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
@@ -40,40 +35,8 @@ const dataArray = [
   }
 ];
 
->>>>>>> 259d44bc75499cf3994ab1d37c81137627ae5153
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const mentorData = [
-  {
-      name:"Arpita Mam",
-      email:"arpita@gmail.com",
-      id:"123",
-      phNo:12345
-
-},
-{
-  name:"Mrinmoy Sir",
-  email:"Mrinmoy@gmail.com",
-  id:"125",
-  phNo:67545
-
-},
-{
-  name:"Sanchita Mam",
-  email:"Sanchita@gmail.com",
-  id:"130",
-  phNo:876524
-
-},
-{
-  name:"Jayata Mam",
-  email:"Jayata@gmail.com",
-  id:"131",
-  phNo:82677
-
-}
-];
 
 /* Database Connection*/
 // const sequelize = new Sequelize(
@@ -102,13 +65,11 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
   res.render('login');
 });
+
+//admin routes
 app.get('/admin', (req, res) => {
   res.render('admin',{mentorData});
 });
-app.get('/addMentor', (req, res) => {
-  res.render('addMentor');
-});
-
 app.post('/admin', (req, res) => {
   mentorData.push({
    id: req.body.mentorId,
@@ -116,12 +77,10 @@ app.post('/admin', (req, res) => {
    email: req.body.email,
    phNo: req.body.phNo
  })
-//  console.log(mentorData);
 res.redirect('admin');
-
- 
 }); 
 
+//mentor routes
 // get all mentors
 app.get("/mentor",(req,res)=>{
   res.render('mentor',{dataArray});
@@ -184,6 +143,3 @@ app.post('/updateStudent',(req,res)=>{
 app.listen(PORT, () => {
   console.log(`The app start on http://localhost:${PORT}`);
 });
-
-/*  
-*/
