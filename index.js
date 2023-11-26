@@ -1,9 +1,15 @@
 const express = require('express');
 const { Sequelize } = require('sequelize');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
-var i =0;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
+
+
+let i =0;
 
  function updateId() {
   return ++i;
@@ -59,12 +65,16 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
   res.render('login');
 });
+
+// get all mentors
 app.get("/mentor",(req,res)=>{
   res.render('mentor',{dataArray});
 })
+// get student form 
 app.post("/process-add-student",(req,res)=>{
   res.render('addStudentFrom');
 })
+// add new student to mentor 
 app.post('/mentor', (req, res) => {
    dataArray.push({
     id:updateId(),
@@ -72,10 +82,47 @@ app.post('/mentor', (req, res) => {
     studentId: req.body.studentId,
     rollNo: req.body.rollNumber
   })
-  console.log(dataArray);
- res.render('mentor', { dataArray});
+res.redirect("mentor")
   
 });
+
+// delete student from mentor 
+app.post('/deleteStudent', (req, res) => {
+  const { id } = req.body;
+  const index = dataArray.findIndex(data => data.id === parseInt(id));
+  if (index !== -1) {
+    dataArray.splice(index, 1);
+    console.log(`Element with id ${id} deleted successfully.`);
+  } else {
+    console.log(`Element with id ${id} not found.`);
+  }
+  res.redirect("/mentor");
+  
+});
+
+//  get update student form
+app.post('/updateStudentForm', (req, res) => {
+  const id = parseInt(req.body.id);
+  let student=dataArray.find((data)=> data.id === id);
+  //console.log(student);
+  res.render("updateStudentFrom",{student})
+  
+});
+
+// update student 
+app.post('/updateStudent',(req,res)=>{
+  const name = req.body.name;
+  const studentId = req.body.studentId;
+  const rollNumber = req.body.rollNumber;
+  const id = req.body.id;
+  
+  let index= dataArray.findIndex((data)=>data.id===parseInt(id));
+  dataArray[index].name=name;
+  dataArray[index].studentId=studentId
+  dataArray[index].rollNo= rollNumber
+
+  res.redirect('/mentor')
+})
 
 // server listening
 app.listen(PORT, () => {

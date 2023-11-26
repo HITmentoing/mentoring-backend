@@ -1,0 +1,35 @@
+<%-include("./partials/header")-%>
+
+<body class="bg-red-500">
+    <h1>Student update form </h1>
+    
+    <form action="/updateStudent" method="post" id="addStudentFrom">
+        <div class="mx-auto my-5">
+            <label for="name">Student Name:</label>
+            <input type="text" id="name" name="name"  required value=<%= student.name%> >
+        </div>
+    
+        <div class="mx-auto  my-5">
+            <label for="studentId">Student Id</label>
+            <input type="text" id="studentId" name="studentId"  required value=<%= student.studentId %> >
+            <br>
+        </div>
+    
+        <div class="mx-auto  my-5">
+            <label for="rollNumber">Roll Number</label>
+            <input type="text" id="rollNumber" name="rollNumber" required value=<%= student.rollNo%> >
+            <br>
+        </div>
+            <div class="mx-auto  my-5">
+                    <input style="display: none;" type="text" id="id" name="id" required value=<%=student.id%> >
+                    <br>
+                </div>
+        
+     <div class="bg-blue-400">
+            <button type="submit">Save</button>
+        </div>
+    
+    </form>
+</body>
+
+</html>
