@@ -1,0 +1,118 @@
+<%-include("./partials/header")-%>
+<head>
+  <link rel="stylesheet" href="./styles/login.css" type="text/css" />
+</head>
+  <body class="flex justify-center items-center">
+    <div class="form">
+      
+      <ul class="tab-group">
+        <li class="tab active"><a href="#mentor">Mentor</a></li>
+        <li class="tab"><a href="#student">Student</a></li>
+        <li class="tab"><a href="#admin">Admin</a></li>
+      </ul>
+      
+      <div class="tab-content">
+        <div id="mentor">   
+          <h1>mentor signin</h1>
+          
+          <form action="/" method="post">
+          
+            <div class="field-wrap">
+              <label>
+                Employee id<span class="req">*</span>
+              </label>
+              <input type="text" required autocomplete="off" />
+            </div>
+
+          <div class="field-wrap">
+            <label>
+              Name<span class="req">*</span>
+            </label>
+            <input type="text"required autocomplete="off"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password"required autocomplete="off"/>
+          </div>
+          
+          <button type="submit" class="button button-block">Get Started</button>
+          
+          </form>
+
+        </div>
+  
+      
+        
+        <div id="student">   
+          <h1 >student signin</h1>
+          
+          <form action="/" method="post">
+          
+            <div class="field-wrap">
+            <label>
+              Student id<span class="req">*</span>
+            </label>
+            <input type="text"required autocomplete="off"/>
+          </div>
+            
+            <div class="field-wrap">
+            <label>
+              Name<span class="req">*</span>
+            </label>
+            <input type="text"required autocomplete="off"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password"required autocomplete="off"/>
+          </div>
+          
+          <button class="button button-block">Log In</button>
+          
+          </form>
+
+        </div>
+
+<div id="admin">   
+          <h1>admin signin</h1>
+          
+          <form action="/" method="post">
+          
+            <div class="field-wrap">
+              <label>
+                Employee id<span class="req">*</span>
+              </label>
+              <input type="text" required autocomplete="off" />
+            </div>
+
+          <div class="field-wrap">
+            <label>
+              Name<span class="req">*</span>
+            </label>
+            <input type="text"required autocomplete="off"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password"required autocomplete="off"/>
+          </div>
+          
+          <button type="submit" class="button button-block">Get Started</button>
+          
+          </form>
+
+        </div>
+        
+      </div><!-- tab-content -->
+      
+</div> <!-- /form -->
+<script src="./js/login.js"></script>
+  </body>
+</html>
