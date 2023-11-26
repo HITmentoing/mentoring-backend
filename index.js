@@ -66,6 +66,21 @@ app.get('/', (req, res) => {
   res.render('login');
 });
 
+//admin routes
+app.get('/admin', (req, res) => {
+  res.render('admin',{mentorData});
+});
+app.post('/admin', (req, res) => {
+  mentorData.push({
+   id: req.body.mentorId,
+   name: req.body.name,
+   email: req.body.email,
+   phNo: req.body.phNo
+ })
+res.redirect('admin');
+}); 
+
+//mentor routes
 // get all mentors
 app.get("/mentor",(req,res)=>{
   res.render('mentor',{dataArray});
@@ -128,6 +143,3 @@ app.post('/updateStudent',(req,res)=>{
 app.listen(PORT, () => {
   console.log(`The app start on http://localhost:${PORT}`);
 });
-
-/*  
-*/
