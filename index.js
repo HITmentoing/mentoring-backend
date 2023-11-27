@@ -2,6 +2,7 @@ const express = require("express");
 const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
 require("dotenv").config();
+const { adminData, mentorData, studentData, updateId } = require("./db")
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -10,38 +11,6 @@ app.set("view engine", "ejs");
 // design file
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-
-let i = 0;
-
-function updateId() {
-  return ++i;
-}
-const dataArray = [
-  {
-    id: updateId(),
-    name: "Rajdeep Chowdhury",
-    studentId: "001-20-3500",
-    rollNo: 12568525,
-    password: 1234,
-  },
-  {
-    id: updateId(),
-    name: "Rajpratim Patra",
-    studentId: "001-20-3500",
-    rollNo: 12568525,
-    password: 1234,
-  },
-  {
-    id: updateId(),
-    name: "Jayanta Barik",
-    studentId: "001-20-3500",
-    rollNo: 12568525,
-    password: 1234,
-  },
-];
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 /* Database Connection*/
 // const sequelize = new Sequelize(
@@ -62,16 +31,88 @@ app.use(express.urlencoded({ extended: true }));
 //     console.error('Unable to connect to the database: ', error);
 //   });
 
+
+
 // routers
 app.get("/", (req, res) => {
   res.render("login");
 });
 
 //login routes
+app.post("/login", (req, res) => {
+  if (req.body.empId) {
+    const { empId, name, password } = req.body;
+    const mentorProfile = mentorData.find((mentor) => {
+      return (
+        mentor.empId == empId &&
+        mentor.name == name &&
+        mentor.password == password
+      );
+    })
+    if (mentorProfile) {
+      res.render("mentor", { studentData });
+    } else {
+      res.send("Invalid credentials. Please try again.");
+    }
+  }
+  else if (req.body.studentId) {
+    const { studentId, name, password } = req.body;
+
+    const studenProfile = studentData.find((student) => {
+      return (
+        student.studentId == studentId &&
+        student.name == name &&
+        student.password == password
+      );
+    });
+    if (studenProfile) {
+      res.send(`Welcome, ${stu.name}!`);
+    } else {
+      res.send("Invalid credentials. Please try again.");
+    }
+  }
+  else if (req.body.adminEmail) {
+    const { adminEmail, password } = req.body;
+    const adminProfile = adminData.find((admin) => {
+      return (
+        admin.email == adminEmail &&
+        admin.password == password
+      );
+    })
+    if (adminProfile) {
+      res.render("admin", { mentorData });
+    } else {
+      res.send("Invalid credentials. Please try again.");
+    }
+  }
+})
 app.post("/studentLogin", (req, res) => {
+  console.log(req);
+
+});
+//mentor login
+app.post("/mentorLogin", (req, res) => {
   const { studentId, studentName, studentPassword } = req.body;
 
-  const student = dataArray.find((stu) => {
+  const student = studentData.find((stu) => {
+    return (
+      stu.studentId == studentId &&
+      stu.name == studentName &&
+      stu.password == studentPassword
+    );
+  });
+  if (student) {
+    res.send(`Welcome, ${student.name}!`);
+  } else {
+    res.send("Invalid credentials. Please try again.");
+  }
+});
+
+//admin login
+app.post("/AdminLogins", (req, res) => {
+  const { studentId, studentName, studentPassword } = req.body;
+
+  const student = studentData.find((stu) => {
     return (
       stu.studentId == studentId &&
       stu.name == studentName &&
@@ -91,18 +132,23 @@ app.get("/admin", (req, res) => {
 });
 app.post("/admin", (req, res) => {
   mentorData.push({
-    id: req.body.mentorId,
+    mentorId: updateId(mentorData),
+    empId: req.body.mentorId,
     name: req.body.name,
     email: req.body.email,
-    phNo: req.body.phNo,
+    mobile: req.body.phNo,
+    password: req.body.password,
   });
   res.redirect("admin");
 });
+app.get("/addMentor", (req, res) => {
+  res.render("addMentor");
+})
 
 //mentor routes
 // get all mentors
 app.get("/mentor", (req, res) => {
-  res.render("mentor", { dataArray });
+  res.render("mentor", { studentData });
 });
 // get student form
 app.post("/process-add-student", (req, res) => {
@@ -110,7 +156,7 @@ app.post("/process-add-student", (req, res) => {
 });
 // add new student to mentor
 app.post("/mentor", (req, res) => {
-  dataArray.push({
+  studentData.push({
     id: updateId(),
     name: req.body.name,
     studentId: req.body.studentId,
@@ -122,9 +168,9 @@ app.post("/mentor", (req, res) => {
 // delete student from mentor
 app.post("/deleteStudent", (req, res) => {
   const { id } = req.body;
-  const index = dataArray.findIndex((data) => data.id === parseInt(id));
+  const index = studentData.findIndex((data) => data.id === parseInt(id));
   if (index !== -1) {
-    dataArray.splice(index, 1);
+    studentData.splice(index, 1);
     console.log(`Element with id ${id} deleted successfully.`);
   } else {
     console.log(`Element with id ${id} not found.`);
@@ -135,7 +181,7 @@ app.post("/deleteStudent", (req, res) => {
 //  get update student form
 app.post("/updateStudentForm", (req, res) => {
   const id = parseInt(req.body.id);
-  let student = dataArray.find((data) => data.id === id);
+  let student = studentData.find((data) => data.id === id);
   //console.log(student);
   res.render("updateStudentFrom", { student });
 });
@@ -147,10 +193,10 @@ app.post("/updateStudent", (req, res) => {
   const rollNumber = req.body.rollNumber;
   const id = req.body.id;
 
-  let index = dataArray.findIndex((data) => data.id === parseInt(id));
-  dataArray[index].name = name;
-  dataArray[index].studentId = studentId;
-  dataArray[index].rollNo = rollNumber;
+  let index = studentData.findIndex((data) => data.id === parseInt(id));
+  studentData[index].name = name;
+  studentData[index].studentId = studentId;
+  studentData[index].rollNo = rollNumber;
 
   res.redirect("/mentor");
 });
