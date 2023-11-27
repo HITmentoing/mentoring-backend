@@ -1,18 +1,17 @@
-<%-include("./partials/header")-%>
+<%- include("./partials/header") %>
 
 <body class="bg-teal-600 flex justify-center items-center">
-    <div class=" mx-auto mt-8">
-        <h1 class="text-8xl my-3 flex justify-center items-center text-teal-950 font-extrabold "> Mentors page</h1>
-        <h2 class="text-5xl mx-auto flex justify-center items-center text-teal-950 font-bold">Details Of student</h2>
+    <div class="mx-auto mt-8">
+        <h1 class="text-6xl my-3 text-center text-teal-950 font-bold">Mentors Page</h1>
+        <h2 class="text-4xl my-3 text-center text-teal-950 font-semibold">Details of Students</h2>
         <div class="flex justify-center items-center">
             <form action="/process-add-student" method="post">
-                <button class="bg-green-600 text-white py-1 px-2 rounded-md mr-2" type="submit">Add student</button>
+                <button class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50" type="submit">Add Student</button>
             </form>
-            
         </div>
         
-        <table class="min-w-full bg-white border border-gray-300">
-            <thead>
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden text-2xl">
+            <thead class="bg-gray-200">
                 <tr>
                     <th class="py-2 px-4 border-b">Serial No</th>
                     <th class="py-2 px-4 border-b">Student Name</th>
@@ -22,49 +21,28 @@
                 </tr>
             </thead>
             <tbody>
-                <% dataArray.forEach(data=> { %>
-                    <tr>
-                        <td class="py-2 px-4 border-b">
-                            <%= data.id %>
-                        </td class="py-2 px-4 border-b">
-                        <td class="py-2 px-4 border-b">
-                            <%= data.name %>
-                        </td class="py-2 px-4 border-b">
-                        <td>
-                            <%= data.studentId %>
-                        </td class="py-2 px-4 border-b">
-                        <td>
-                            <%= data.rollNo %>
+                <% dataArray.forEach(data => { %>
+                    <tr class="hover:bg-gray-100 transition-colors">
+                        <td class="py-2 px-4 border-b"><%= data.id %></td>
+                        <td class="py-2 px-4 border-b"><%= data.name %></td>
+                        <td class="py-2 px-4 border-b"><%= data.studentId %></td>
+                        <td class="py-2 px-4 border-b"><%= data.rollNo %></td>
+                        <td class="py-2 px-4 border-b flex justify-center items-center  ">
+                            <form action="/updateStudentForm" method="post" class="flex">
+                                <input type="hidden" id="id" name="id" value="<%= data.id %>">
+                                <button class="bg-blue-500 mt-2 h-9  hover:bg-blue-600 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" type="submit">Update</button>
+                            </form>
+                            <form action="/deleteStudent" method="post" class="flex ml-2">
+                                <input type="hidden" id="id" name="id" value="<%= data.id %>">
+                                <button class="bg-red-500 mt-2 h-9 hover:bg-red-600 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50" type="submit">Delete</button>
+                            </form>
                         </td>
                         
-                        <form action="/updateStudentForm" method="post">
-                            <td class="py-2 px-4 border-b">
-                                <input type="hidden" id="id" name="id" value="<%= data.id %>"> <!-- Set your ID dynamically -->
-                                <button class="bg-blue-500 text-white py-1 px-2 rounded-md" type="submit">Update</button>
-                            </td>
-                        
-                        </form>
-                               
-                        <form action="/deleteStudent" method="post">
-                            <td class="py-2 px-4 border-b">
-                                    <input type="hidden" id="id" name="id" value=<%=data.id %>> <!-- Set your ID dynamically -->
-                                    <button class="bg-red-500 text-white py-1 px-2 rounded-md" type="submit" >Delete</button>
-                            </td>
-                            
-                        </form>
                         
                     </tr>
-            
-                    <% }); %>
+                <% }); %>
             </tbody>
-
         </table>
     </div>
-
-    
-        
 </body>
-
-
 </html>
-
