@@ -36,8 +36,20 @@
           <td>
             <%= data.mobile %>
           </td class="py-2 px-4 border-b">
-          <td class="py-2 px-4 border-b"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button></td>
-          <td class="py-2 px-4 border-b"><button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button></td>
+          <form action="/updateMentorForm" method="post">
+            <td class="py-2 px-4 border-b">
+                <input type="hidden" id="id" name="id" value="<%= data.uuid %>"> <!-- Set your ID dynamically -->
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Edit</button>
+            </td>
+        
+        </form>
+        <form action="/deleteMentor" method="post">
+            <td class="py-2 px-4 border-b">
+                    <input type="hidden" id="id" name="id" value=<%=data.uuid %>> <!-- Set your ID dynamically -->
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="submit" >Delete</button>
+            </td>
+            
+        </form>
         </tr>
         <% }); %>
       </tbody>

@@ -50,7 +50,7 @@ app.post("/login", (req, res) => {
       );
     })
     if (mentorProfile) {
-      res.render("mentor", { studentData });
+      res.redirect("/mentor");
     } else {
       res.send("Invalid credentials. Please try again.");
     }
@@ -80,51 +80,12 @@ app.post("/login", (req, res) => {
       );
     })
     if (adminProfile) {
-      res.render("admin", { mentorData });
+      res.redirect("/admin");
     } else {
       res.send("Invalid credentials. Please try again.");
     }
   }
 })
-app.post("/studentLogin", (req, res) => {
-  console.log(req);
-
-});
-//mentor login
-app.post("/mentorLogin", (req, res) => {
-  const { studentId, studentName, studentPassword } = req.body;
-
-  const student = studentData.find((stu) => {
-    return (
-      stu.studentId == studentId &&
-      stu.name == studentName &&
-      stu.password == studentPassword
-    );
-  });
-  if (student) {
-    res.send(`Welcome, ${student.name}!`);
-  } else {
-    res.send("Invalid credentials. Please try again.");
-  }
-});
-
-//admin login
-app.post("/AdminLogins", (req, res) => {
-  const { studentId, studentName, studentPassword } = req.body;
-
-  const student = studentData.find((stu) => {
-    return (
-      stu.studentId == studentId &&
-      stu.name == studentName &&
-      stu.password == studentPassword
-    );
-  });
-  if (student) {
-    res.send(`Welcome, ${student.name}!`);
-  } else {
-    res.send("Invalid credentials. Please try again.");
-  }
-});
 
 //admin routes
 app.get("/admin", (req, res) => {
@@ -144,6 +105,39 @@ app.post("/admin", (req, res) => {
 app.get("/addMentor", (req, res) => {
   res.render("addMentor");
 })
+app.post("/updateMentorForm",(req,res)=>{
+  const id = parseInt(req.body.id);
+  const mentor = mentorData.find((data)=> data.uuid === id)
+  res.render("updateMentor", {mentor})
+})
+//mentor update
+app.post("/updateMentor",(req,res)=>{
+  const empId = req.body.empId;
+  const name = req.body.name;
+  const email = req.body.email;
+  const mobile = req.body.mobile
+  const _id = req.body.id;
+
+  let index = mentorData.findIndex((data) => data.uuid === parseInt(_id));
+  mentorData[index].empId = empId;
+  mentorData[index].name = name;
+  mentorData[index].email = email;
+  mentorData[index].mobile = mobile
+  res.redirect("/admin")
+})
+//mentor delete
+// delete student from mentor
+app.post("/deleteMentor", (req, res) => {
+  const id = parseInt(req.body.id);
+  const index = mentorData.findIndex((data) => data.uuid === parseInt(id));
+  if (index !== -1) {
+    mentorData.splice(index, 1);
+    console.log(`Element with id ${id} deleted successfully.`);
+  } else {
+    console.log(`Element with id ${id} not found.`);
+  }
+  res.redirect("/admin");
+});
 
 //mentor routes
 // get all mentors
@@ -157,10 +151,11 @@ app.post("/process-add-student", (req, res) => {
 // add new student to mentor
 app.post("/mentor", (req, res) => {
   studentData.push({
-    id: updateId(),
+    uuid: updateId(studentData),
+    stuId: req.body.studentId,
     name: req.body.name,
-    studentId: req.body.studentId,
-    rollNo: req.body.rollNumber,
+    roll: req.body.rollNumber,
+    password: req.body.password
   });
   res.redirect("mentor");
 });
@@ -168,7 +163,7 @@ app.post("/mentor", (req, res) => {
 // delete student from mentor
 app.post("/deleteStudent", (req, res) => {
   const { id } = req.body;
-  const index = studentData.findIndex((data) => data.id === parseInt(id));
+  const index = studentData.findIndex((data) => data.uuid === parseInt(id));
   if (index !== -1) {
     studentData.splice(index, 1);
     console.log(`Element with id ${id} deleted successfully.`);
@@ -181,24 +176,22 @@ app.post("/deleteStudent", (req, res) => {
 //  get update student form
 app.post("/updateStudentForm", (req, res) => {
   const id = parseInt(req.body.id);
-  let student = studentData.find((data) => data.id === id);
-  //console.log(student);
+  let student = studentData.find((data) => data.uuid === id);
   res.render("updateStudentFrom", { student });
 });
 
 // update student
 app.post("/updateStudent", (req, res) => {
-  const name = req.body.name;
   const studentId = req.body.studentId;
+  const name = req.body.name;
   const rollNumber = req.body.rollNumber;
-  const id = req.body.id;
+  const _id = req.body.id;
 
-  let index = studentData.findIndex((data) => data.id === parseInt(id));
+  let index = studentData.findIndex((data) => data.uuid === parseInt(_id));
+  studentData[index].stuId = studentId;
   studentData[index].name = name;
-  studentData[index].studentId = studentId;
-  studentData[index].rollNo = rollNumber;
-
-  res.redirect("/mentor");
+  studentData[index].roll = rollNumber;
+  res.redirect("/mentor")
 });
 
 // server listening
