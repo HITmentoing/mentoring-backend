@@ -14,9 +14,8 @@
         <table class="min-w-full bg-white border border-gray-300">
             <thead>
                 <tr>
-                    <th class="py-2 px-4 border-b">Serial No</th>
+                    <th class="py-2 px-4 border-b">Student.Id</th>
                     <th class="py-2 px-4 border-b">Student Name</th>
-                    <th class="py-2 px-4 border-b">Student Id</th>
                     <th class="py-2 px-4 border-b">Roll No</th>
                     <th class="py-2 px-4 border-b">Actions</th>
                 </tr>
@@ -25,21 +24,18 @@
                 <% studentData.forEach(data=> { %>
                     <tr>
                         <td class="py-2 px-4 border-b">
-                            <%= data.id %>
+                            <%= data.stuId %>
                         </td class="py-2 px-4 border-b">
                         <td class="py-2 px-4 border-b">
                             <%= data.name %>
                         </td class="py-2 px-4 border-b">
                         <td>
-                            <%= data.studentId %>
+                            <%= data.roll %>
                         </td class="py-2 px-4 border-b">
-                        <td>
-                            <%= data.rollNo %>
-                        </td>
                         
                         <form action="/updateStudentForm" method="post">
                             <td class="py-2 px-4 border-b">
-                                <input type="hidden" id="id" name="id" value="<%= data.id %>"> <!-- Set your ID dynamically -->
+                                <input type="hidden" id="id" name="id" value="<%= data.uuid %>"> <!-- Set your ID dynamically -->
                                 <button class="bg-blue-500 text-white py-1 px-2 rounded-md" type="submit">Update</button>
                             </td>
                         
@@ -47,7 +43,7 @@
                                
                         <form action="/deleteStudent" method="post">
                             <td class="py-2 px-4 border-b">
-                                    <input type="hidden" id="id" name="id" value=<%=data.id %>> <!-- Set your ID dynamically -->
+                                    <input type="hidden" id="id" name="id" value=<%=data.uuid %>> <!-- Set your ID dynamically -->
                                     <button class="bg-red-500 text-white py-1 px-2 rounded-md" type="submit" >Delete</button>
                             </td>
                             
