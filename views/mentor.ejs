@@ -13,32 +13,31 @@
         <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden text-2xl">
             <thead class="bg-gray-200">
                 <tr>
-                    <th class="py-2 px-4 border-b">Serial No</th>
+                    <th class="py-2 px-4 border-b">Student.Id</th>
                     <th class="py-2 px-4 border-b">Student Name</th>
-                    <th class="py-2 px-4 border-b">Student Id</th>
                     <th class="py-2 px-4 border-b">Roll No</th>
                     <th class="py-2 px-4 border-b">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <% dataArray.forEach(data => { %>
+                <% studentData.forEach(data => { %>
                     <tr class="hover:bg-gray-100 transition-colors">
-                        <td class="py-2 px-4 border-b"><%= data.id %></td>
+                        <td class="py-2 px-4 border-b"><%= data.stuId %></td>
                         <td class="py-2 px-4 border-b"><%= data.name %></td>
-                        <td class="py-2 px-4 border-b"><%= data.studentId %></td>
-                        <td class="py-2 px-4 border-b"><%= data.rollNo %></td>
+                        
+                        <td class="py-2 px-4 border-b"><%= data.roll %></td>
                         <td class="py-2 px-4 border-b flex justify-center items-center  ">
                             <form action="/updateStudentForm" method="post" class="flex">
+                                
                                 <input type="hidden" id="id" name="id" value="<%= data.id %>">
                                 <button class="bg-blue-500 mt-2 h-9  hover:bg-blue-600 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" type="submit">Update</button>
                             </form>
                             <form action="/deleteStudent" method="post" class="flex ml-2">
-                                <input type="hidden" id="id" name="id" value="<%= data.id %>">
+                                
+                                <input type="hidden" id="id" name="id" value=<%=data.id %>>
                                 <button class="bg-red-500 mt-2 h-9 hover:bg-red-600 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50" type="submit">Delete</button>
                             </form>
-                        </td>
-                        
-                        
+                        </td>      
                     </tr>
                 <% }); %>
             </tbody>

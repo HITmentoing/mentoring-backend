@@ -1,53 +1,59 @@
-
 <%-include("./partials/header")-%>
+
 <body class="bg-teal-600 flex justify-center items-center">
-   <div  class="bg-teal-600 justify-center items-center">
+  <div class="bg-teal-600 justify-center items-center">
     <h1 class="text-white font-extrabold text-center text-4xl">Admin Page</h1>
-   </div>
-   <div>
-    <button class="bg-yellow-500 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded ml-2">Add Student</button>
+  </div>
+  <div>
     <a href="addMentor"><button class="bg-yellow-500 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded">Add Mentor</button></a>
-   </div>
+  </div>
 
-   <div class="flex items-center justify-center h-screen">
-       <table class="min-w-full bg-white border border-gray-300">
+  <div class="flex items-center justify-center h-screen">
+    <table class="min-w-full bg-white border border-gray-300">
+      <thead>
         <tr>
-            <th class="py-2 px-4 border-b">Email</th>
-            <th class="py-2 px-4 border-b">Name</th>
-            <th class="py-2 px-4 border-b">Id</th>
-            <th class="py-2 px-4 border-b">Number</th>
-            <!-- <th class="py-2 px-4 border-b">Batch</th>
-            <th class="py-2 px-4 border-b">Group</th> -->
-            
+          <th class="py-2 px-4 border-b">Emp.Id</th>
+          <th class="py-2 px-4 border-b">Name</th>
+          <th class="py-2 px-4 border-b">email</th>
+          <th class="py-2 px-4 border-b">mobile</th>
+          <!-- <th class="py-2 px-4 border-b">Batch</th>
+                <th class="py-2 px-4 border-b">Group</th> -->
         </tr>
+      </thead>
 
+      <tbody>
+        <% mentorData.forEach(data=> { %>
         <tr>
-            <% mentorData.forEach(data=> { %>
-                <tr>
-                    <td class="py-2 px-4 border-b">
-                        <%= data.email %>
-                    </td class="py-2 px-4 border-b">
-                    <td class="py-2 px-4 border-b">
-                        <%= data.name %>
-                    </td class="py-2 px-4 border-b">
-                    <td>
-                        <%= data.id %>
-                    </td class="py-2 px-4 border-b">
-                    <td>
-                        <%= data.phNo %>
-                    </td>
-                    <td class="py-2 px-4 border-b"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button></td>
-                    <td class="py-2 px-4 border-b"><button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button></td>
-                </tr>
+          <td class="py-2 px-4 border-b">
+            <%= data.empId %>
+          </td class="py-2 px-4 border-b">
+          <td class="py-2 px-4 border-b">
+            <%= data.name %>
+          </td class="py-2 px-4 border-b">
+          <td class="py-2 px-4 border-b">
+            <%= data.email %>
+          </td class="py-2 px-4 border-b">
+          <td>
+            <%= data.mobile %>
+          </td class="py-2 px-4 border-b">
+          <form action="/updateMentorForm" method="post">
+            <td class="py-2 px-4 border-b">
+                <input type="hidden" id="id" name="id" value="<%= data.uuid %>"> <!-- Set your ID dynamically -->
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Edit</button>
+            </td>
         
-                <% }); %>
-           
+        </form>
+        <form action="/deleteMentor" method="post">
+            <td class="py-2 px-4 border-b">
+                    <input type="hidden" id="id" name="id" value=<%=data.uuid %>> <!-- Set your ID dynamically -->
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="submit" >Delete</button>
+            </td>
+            
+        </form>
         </tr>
-       
-       </table>
-
-   </div>
-
-  
- </body>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</body>
 </html>

@@ -1,4 +1,4 @@
-<%- include("./partials/header") %>
+<%- include("./partials/header") -%>
 
 <body class="bg-red-500">
     <div class="flex items-center justify-center h-screen bg-teal-600">
@@ -7,22 +7,19 @@
     
             <form action="/updateStudent" method="post" id="addStudentFrom" class="mt-8 bg-gray-800 p-8 rounded-md w-96 mx-auto shadow-md">
                 <div class="mb-4">
+                    <label for="studentId" class="block text-2xl text-white">Student Id</label>
+                    <input type="text" id="studentId" name="studentId" required value="<%= student.stuId %>" class="px-4 py-2 bg-gray-800 text-xl border border-white-300 text-white rounded-md w-64">
+                </div>
+                <div class="mb-4">
                     <label for="name" class="block text-2xl text-white">Student Name:</label>
                     <input type="text" id="name" name="name" required value="<%= student.name %>" class="px-4 py-2 bg-gray-800 text-xl border border-white-300 text-white rounded-md w-64">
                 </div>
-    
-                <div class="mb-4">
-                    <label for="studentId" class="block text-2xl text-white">Student Id</label>
-                    <input type="text" id="studentId" name="studentId" required value="<%= student.studentId %>" class="px-4 py-2 bg-gray-800 text-xl border border-white-300 text-white rounded-md w-64">
-                </div>
-    
                 <div class="mb-4">
                     <label for="rollNumber" class="block text-2xl text-white">Roll Number</label>
-                    <input type="text" id="rollNumber" name="rollNumber" required value="<%= student.rollNo %>" class="px-4 py-2 bg-gray-800 text-xl border border-white-300 text-white rounded-md w-64">
+                    <input type="text" id="rollNumber" name="rollNumber" required value="<%= student.roll %>" class="px-4 py-2 bg-gray-800 text-xl border border-white-300 text-white rounded-md w-64">
                 </div>
-                
                 <div class="mb-4">
-                    <input type="hidden" id="id" name="id" required value="<%= student.id %>">
+                    <input type="hidden" id="id" name="id" required value="<%= student.uuid %>">
                 </div>
                 
                 <div>
@@ -30,7 +27,6 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> 
 </body>
-
 </html>
