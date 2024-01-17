@@ -1,21 +1,23 @@
 <%-include("./partials/header")-%>
 
 <body class="bg-teal-600 flex justify-center items-center">
-  <div class="bg-teal-600 justify-center items-center">
-    <h1 class="text-white font-extrabold text-center text-4xl">Admin Page</h1>
-  </div>
-  <div>
-    <a href="addMentor"><button class="bg-yellow-500 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded">Add Mentor</button></a>
-  </div>
+  <div class="mx-auto mt-8">
+    <h1 class="text-6xl my-3 text-center text-teal-950 font-bold">Admin Page</h1>
+    <h2 class="text-4xl my-3 text-center text-teal-950 font-semibold">Details of Mentors</h2>
+    <div class="mb-4 flex justify-center items-center">
+      <a href="addMentor">
+        <button class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50" type="submit">Add Mentor</button>
+      </a>
+    </div>
 
-  <div class="flex items-center justify-center h-screen">
-    <table class="min-w-full bg-white border border-gray-300">
-      <thead>
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden text-2xl">
+      <thead class="bg-gray-200">
         <tr>
           <th class="py-2 px-4 border-b">Emp.Id</th>
           <th class="py-2 px-4 border-b">Name</th>
           <th class="py-2 px-4 border-b">email</th>
           <th class="py-2 px-4 border-b">mobile</th>
+          <th class="py-2 px-4 border-b">Actions</th>
           <!-- <th class="py-2 px-4 border-b">Batch</th>
                 <th class="py-2 px-4 border-b">Group</th> -->
         </tr>
@@ -23,37 +25,34 @@
 
       <tbody>
         <% mentorData.forEach(data=> { %>
-        <tr>
+        <tr class="hover:bg-gray-100 transition-colors">
           <td class="py-2 px-4 border-b">
             <%= data.empId %>
-          </td class="py-2 px-4 border-b">
+          </td>
           <td class="py-2 px-4 border-b">
             <%= data.name %>
-          </td class="py-2 px-4 border-b">
+          </td>
           <td class="py-2 px-4 border-b">
             <%= data.email %>
-          </td class="py-2 px-4 border-b">
-          <td>
+          </td>
+          <td class="py-2 px-4 border-b">
             <%= data.mobile %>
-          </td class="py-2 px-4 border-b">
-          <form action="/updateMentorForm" method="post">
-            <td class="py-2 px-4 border-b">
-                <input type="hidden" id="id" name="id" value="<%= data.uuid %>"> <!-- Set your ID dynamically -->
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Edit</button>
-            </td>
-        
-        </form>
-        <form action="/deleteMentor" method="post">
-            <td class="py-2 px-4 border-b">
-                    <input type="hidden" id="id" name="id" value=<%=data.uuid %>> <!-- Set your ID dynamically -->
-                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="submit" >Delete</button>
-            </td>
-            
-        </form>
+          </td>
+          <td class="py-2 px-4 border-b flex justify-center items-center">
+            <form action="/updateMentorForm" method="post">
+              <input type="hidden" id="id" name="id" value="<%= data.uuid %>">
+              <button class="bg-blue-500 mt-2 h-9  hover:bg-blue-600 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50" type="submit">Update</button>
+            </form>
+            <form action="/deleteMentor" method="post">
+              <input type="hidden" id="id" name="id" value=<%=data.uuid %>>
+              <button class="bg-red-500 mt-2 h-9 hover:bg-red-600 text-white py-1 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50" type="submit">Delete</button>
+            </form>
+          </td>
         </tr>
         <% }); %>
       </tbody>
     </table>
   </div>
 </body>
+
 </html>

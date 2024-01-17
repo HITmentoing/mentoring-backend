@@ -86,7 +86,7 @@ app.get('/admin', (req, res) => {
 });
 app.post('/admin', (req, res) => {
   mentorData.push({
-    mentorId: updateId(mentorData),
+    uuid: updateId(mentorData),
     empId: req.body.mentorId,
     name: req.body.name,
     email: req.body.email,

@@ -6,19 +6,19 @@
     <form action="/updateMentor" method="post" id="updateMentor">
         <div class="mx-auto my-5">
             <label for="empid">Emp.Id:</label>
-            <input type="text" id="empid" name="empId" required value=<%= mentor.empId%> >
+            <input type="text" id="empid" name="empId" required value="<%= mentor.empId%>" >
         </div> 
         <div class="mx-auto my-5">
             <label for="name">Mentor Name:</label>
-            <input type="text" id="name" name="name" required value=<%= mentor.name%> >
+            <input type="text" id="name" name="name" required value="<%= mentor.name%>" >
         </div>
         <div class="mx-auto my-5">
             <label for="email">Mentor Email:</label>
-            <input type="text" id="email" name="email" required value=<%= mentor.email%> >
+            <input type="text" id="email" name="email" required value="<%= mentor.email%>" >
         </div>  
         <div class="mx-auto  my-5">
             <label for="phNo">Mobile No:</label>
-            <input type="text" id="phNo" name="mobile" required value=<%= mentor.mobile%> >
+            <input type="text" id="phNo" name="mobile" required value="<%= mentor.mobile%>" >
             <br>
         </div>
         <input style="display: none;" type="text" id="id" name="id" required value=<%=mentor.uuid%> >
